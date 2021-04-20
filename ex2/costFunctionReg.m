@@ -19,7 +19,6 @@ grad = zeros(size(theta));
 
 
   z=X*theta;
-  m
   h=sigmoid(z);
   cost=-y.*log(h)-(1-y).*log(1-h);
   J=(1/m)*(sum(cost))+lambda/(2*m)*sum(theta(2:end,:).^2);
