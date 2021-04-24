@@ -62,7 +62,6 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 %value=[1,X(1,:)]
-y(1)
 for i=1:m
    a1=[1,X(i,:)]';
    z2=Theta1*a1;
@@ -73,13 +72,25 @@ for i=1:m
    value=y(i);
    vector_y(value)=1;
    J=J+sum((-vector_y.*log(a3)- (1-vector_y).*log(1-a3)));
+   delta3=a3-vector_y;
+  delta2=(Theta2(:,2:end)'*delta3).*sigmoidGradient(z2);
+  Theta1_grad=Theta1_grad+delta2*(a1)';
+  Theta2_grad=Theta2_grad+delta3*(a2)';
   endfor
   J=J/m;
+  Theta1_reguralized=[zeros(size(Theta1,1),1),Theta1(:,2:end)];
+  Theta2_reguralized=[zeros(size(Theta2,1),1),Theta2(:,2:end)];
+  Theta1_reguralized=Theta1_reguralized(:);
+  Theta2_reguralized=Theta2_reguralized(:);
+  J=J+lambda/(2*m) * (sum(Theta1_reguralized.^2)+sum(Theta2_reguralized.^2));
+  
+  
 % -------------------------------------------------------------
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
+grad=grad/m+lambda/m *[Theta1_reguralized;Theta2_reguralized];
 
 
 end
