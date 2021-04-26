@@ -20,9 +20,9 @@ grad = zeros(size(theta));
 %
 
 h = X*theta;
-regularized_theta=theta(2:end,:)  
-J = 1/(2*m) * sum((h-y).^2) + lambda/(2*m) * (sum(regularized_theta(:).^2))
-
+regularized_theta=[zeros(size(1,1));theta(2:end,:)];
+J = 1/(2*m) * sum((h-y).^2) + lambda/(2*m) * (sum(regularized_theta(:).^2));
+grad=1/m * X' * (h-y) + lambda/m * regularized_theta;
 
 
 
